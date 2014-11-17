@@ -10,8 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>speed</artifactId>
-<dependencies>
-
-
-</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

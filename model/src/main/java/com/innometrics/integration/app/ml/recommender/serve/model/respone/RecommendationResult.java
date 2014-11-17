@@ -1,4 +1,4 @@
-package com.innometrics.intergration.app.ml.recommender.serve.model;
+package com.innometrics.integration.app.ml.recommender.serve.model.respone;
 
 /**
  * Created by andrew on 2014-11-15.

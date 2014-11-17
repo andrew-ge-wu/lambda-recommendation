@@ -8,4 +8,4 @@ pom.xml.next
 release.properties
 
 .idea/*
-*/*.iml
+*.iml

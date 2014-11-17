@@ -12,7 +12,7 @@
     <packaging>war</packaging>
     <properties>
         <jersey.version>1.18.2</jersey.version>
-        <glassfish.version>3.1.1</glassfish.version>
+        <jetty.version>9.0.7.v20131107</jetty.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -23,9 +23,32 @@
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
             <version>${jersey.version}</version>
         </dependency>
+
+        <!--Internal-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>speed</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>storage</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!--Test libs-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -38,55 +61,33 @@
             <version>${jersey.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.extras</groupId>
-            <artifactId>glassfish-embedded-web</artifactId>
-            <version>${glassfish.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>storage</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <inherited>true</inherited>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <archive>
+                        <index>true</index>
+                    </archive>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-            <!--
-             Run the application using "mvn embedded-glassfish:run"
-            -->
             <plugin>
-                <groupId>org.glassfish</groupId>
-                <artifactId>maven-embedded-glassfish-plugin</artifactId>
-                <version>${glassfish.version}</version>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
                 <configuration>
-                    <app>
-                        /home/andrew/workspace/sample/target/${project.build.finalName}.war
-                    </app>
-                    <autoDelete>true</autoDelete>
-                    <port>8080</port>
+                    <war>${project.build.directory}/${project.build.finalName}</war>
+                    <webApp>
+                        <contextPath>/</contextPath>
+                    </webApp>
+                    <contextPath>/</contextPath>
+                    <stopPort>27654</stopPort>
+                    <stopKey>stop</stopKey>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.sun.jersey</groupId>
-                        <artifactId>jersey-servlet</artifactId>
-                        <version>${jersey.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>javax.servlet-api</artifactId>
-                        <version>3.0.1</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

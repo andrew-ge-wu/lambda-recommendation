@@ -1,9 +1,12 @@
-package com.innometrics.intergration.app.ml.recommender.serve.model;
+package com.innometrics.integration.app.ml.recommender.serve.model.request;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by andrew on 2014-11-15.
  */
 public class TrainingData {
+    private String namespace;
     private String user;
     private String item;
     private float preference;
@@ -12,13 +15,24 @@ public class TrainingData {
     public TrainingData() {
     }
 
-    public TrainingData(String user, String item, float preference, long timestamp) {
+    public TrainingData(@NotNull String namespace, @NotNull String user, @NotNull String item, float preference, long timestamp) {
+        this.namespace = namespace;
         this.user = user;
         this.item = item;
         this.preference = preference;
         this.timestamp = timestamp;
     }
 
+    @NotNull
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @NotNull
     public String getUser() {
         return user;
     }
@@ -27,6 +41,7 @@ public class TrainingData {
         this.user = user;
     }
 
+    @NotNull
     public String getItem() {
         return item;
     }
@@ -44,7 +59,11 @@ public class TrainingData {
     }
 
     public long getTimestamp() {
-        return timestamp;
+        if (timestamp > 0) {
+            return timestamp;
+        } else {
+            return System.currentTimeMillis();
+        }
     }
 
     public void setTimestamp(long timestamp) {
